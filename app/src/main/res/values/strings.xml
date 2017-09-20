@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name_main">Input_Numbers</string>
+    <string name="app_name_calc">Calculation_Result</string>
+
+
+    <!--数値項目-->
+    <string name="input_field_01">数値01</string>
+    <string name="input_field_02">数値02</string>
+    <string name="calc_field_01">計算式:</string>
+    <string name="calc_field_02">計算結果:</string>
+
+    <!--インテントキー-->
+    <string name="intent_key_formula">formula</string>
+    <string name="intent_key_calc">calc_result</string>
+</resources>
