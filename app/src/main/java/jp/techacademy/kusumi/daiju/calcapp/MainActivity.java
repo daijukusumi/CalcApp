@@ -10,12 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.math.BigDecimal;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     EditText editText1, editText2;
     Button buttonPlus, buttonMinus, buttonMultiple, buttonDivide;
 
-    private double number01, number02;
+    private BigDecimal number01, number02;
+
 
 
     @Override
@@ -39,10 +42,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonMultiple.setOnClickListener(this);
         buttonDivide.setOnClickListener(this);
 
-
-
-        Log.d("ANDROID", String.valueOf(number02 == 0));
-
+        buttonPlus.setEnabled(false);
+        buttonMinus.setEnabled(false);
+        buttonMultiple.setEnabled(false);
+        buttonDivide.setEnabled(false);
 
     }
 
@@ -51,29 +54,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int id = view.getId();
 
-        number01 = Double.parseDouble(editText1.getText().toString());
-        number02 = Double.parseDouble(editText2.getText().toString());
+        number01 = new BigDecimal(editText1.getText().toString());
+        number02 = new BigDecimal(editText2.getText().toString());
 
         String formula = null; //数式の文字列取得用
-        double result = 0; //計算結果格納用
+        BigDecimal result = new BigDecimal("0");
 
         if (id == R.id.buttonPlus) {
             formula =  String.valueOf(number01) + " ＋ " + String.valueOf(number02);
-            result = (number01 + number02);
+            result = number01.add(number02);
         } else if (id == R.id.buttonMinus) {
             formula =  String.valueOf(number01) + " − " + String.valueOf(number02);
-            result = (number01 - number02);
+            result = number01.subtract(number02);
         } else if (id == R.id.buttonMultiple) {
             formula =  String.valueOf(number01) + " × " + String.valueOf(number02);
-            result =  (number01 * number02);
+            result =  number01.multiply(number02);
         } else if (id == R.id.buttonDivide) {
             formula =  String.valueOf(number01) + " ÷ " + String.valueOf(number02);
-            result = (number01 / number02);
+            result = number01.divide(number02, 1, BigDecimal.ROUND_HALF_UP);
         }
 
         Intent intent = new Intent(this, CalculationActivity.class);
         intent.putExtra(getString(R.string.intent_key_formula), formula);
-        intent.putExtra(getString(R.string.intent_key_calc), result);
+        intent.putExtra(getString(R.string.intent_key_calc), String.valueOf(result));
         startActivity(intent);
 
     }
@@ -85,18 +88,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
         if (editText1.getText().length() == 0|| editText2.getText().length() == 0) {
             buttonPlus.setEnabled(false);
             buttonMinus.setEnabled(false);
             buttonMultiple.setEnabled(false);
             buttonDivide.setEnabled(false);
 
+        } else if (new BigDecimal(editText2.getText().toString()).compareTo(BigDecimal.ZERO) == 0) {
+            buttonPlus.setEnabled(true);
+            buttonMinus.setEnabled(true);
+            buttonMultiple.setEnabled(true);
+            buttonDivide.setEnabled(false);
+            Log.d("ANDROID", String.valueOf(number02)+"b");
         } else {
             buttonPlus.setEnabled(true);
             buttonMinus.setEnabled(true);
             buttonMultiple.setEnabled(true);
             buttonDivide.setEnabled(true);
-
+            Log.d("ANDROID", String.valueOf(number02)+"c");
         }
     }
 

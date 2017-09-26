@@ -1,15 +1,15 @@
 package jp.techacademy.kusumi.daiju.calcapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 public class CalculationActivity extends AppCompatActivity {
 
     TextView textViewCalc1, textViewCalc2;
     String formula;
-    double result;
+    String result;
 
 
     @Override
@@ -23,7 +23,7 @@ public class CalculationActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         formula = intent.getStringExtra(getString(R.string.intent_key_formula));
-        result = intent.getDoubleExtra(getString(R.string.intent_key_calc),0);
+        result = intent.getStringExtra(getString(R.string.intent_key_calc));
 
         textViewCalc1.setText(formula);
         textViewCalc2.setText(String.valueOf(result));
